@@ -56,7 +56,10 @@ void GameCore::Render() {
   if (observer) {
     auto observing_unit = GetUnit(observer->GetPrimaryUnitId());
     if (observing_unit) {
-      SetCamera(observing_unit->GetPosition(), 0.0f);
+      SetCamera(observing_unit->GetPosition(),
+                observer->GetFirstPersonPerspective()
+                    ? observing_unit->GetRotation()
+                    : 0.0f);
     }
   }
 
@@ -96,7 +99,7 @@ void GameCore::Render() {
   for (auto &units : units_) {
     units.second->RenderLifeBar();
   }
-  if (observer) {
+  if (observer && observer->GetHelper()) {
     auto observing_unit = GetUnit(observer->GetPrimaryUnitId());
     if (observing_unit) {
       observing_unit->RenderHelper();
@@ -275,7 +278,8 @@ int GameCore::RandomInt(int low_bound, int high_bound) {
 }
 
 void GameCore::SetScene() {
-  AddObstacle<obstacle::Block>(glm::vec2{-3.0f, 4.0f});
+  AddObstacle<obstacle::Block>(glm::vec2{-3.0f, 4.0f}, glm::radians(37.0f));
+  AddObstacle<obstacle::Block>(glm::vec2{3.0f, -4.0f}, glm::radians(37.0f));
   respawn_points_.emplace_back(glm::vec2{0.0f}, 0.0f);
   respawn_points_.emplace_back(glm::vec2{3.0f, 4.0f}, glm::radians(90.0f));
   boundary_low_ = {-10.0f, -10.0f};

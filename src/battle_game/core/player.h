@@ -16,6 +16,9 @@ class Player {
   [[nodiscard]] const InputData &GetInputData() const {
     return input_data_;
   }
+  [[nodiscard]] const InputData &GetPreviousInputData() const {
+    return previous_input_data_;
+  }
   [[nodiscard]] uint32_t GetPrimaryUnitId() const {
     return primary_unit_id_;
   }
@@ -28,12 +31,31 @@ class Player {
     return resurrection_count_down_;
   }
 
+  void SetFirstPersonPerspective(bool first_person_perspective) {
+    first_person_perspective_ = first_person_perspective;
+  }
+  void ChangeFirstPersonPerspective();
+  [[nodiscard]] bool GetFirstPersonPerspective() const {
+    return first_person_perspective_;
+  }
+
+  void SetHelper(bool helper) {
+    helper_ = helper;
+  }
+  void ChangeHelper();
+  [[nodiscard]] bool GetHelper() const {
+    return helper_;
+  }
+
  private:
   GameCore *game_core_{};
   uint32_t id_{};
   InputData input_data_{};
+  InputData previous_input_data_{};
   uint32_t primary_unit_id_{};
   uint32_t resurrection_count_down_{1};
   int selected_unit_{0};
+  bool first_person_perspective_{false};
+  bool helper_{false};
 };
 }  // namespace battle_game
