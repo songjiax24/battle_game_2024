@@ -14,5 +14,7 @@ class Block : public Obstacle {
   [[nodiscard]] bool IsBlocked(glm::vec2 p) const override;
   void Render() override;
   glm::vec2 scale_{1.0f};
+  std::pair<glm::vec2, glm::vec2> GetSurfaceNormal(glm::vec2 origin,
+                                                   glm::vec2 terminus) override;
 };
 }  // namespace battle_game::obstacle
